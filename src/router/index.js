@@ -18,6 +18,20 @@ const router = createRouter({
       ],
       redirect: { name: 'UserLogin' },
     },
+    // Project Body
+    {
+      path: '/',
+      name: 'Project',
+      component: () => import('../content/WebBody/index.vue'),
+      children: [
+        {
+          path: '/DashBoard',
+          name: 'DashBoard',
+          component: () => import('../content/WebBody/DashBoard/DashBoard.vue'),
+        },
+      ],
+      redirect: { name: 'DashBoard' },
+    },
     // 404 Page
     {
       path: '/404',

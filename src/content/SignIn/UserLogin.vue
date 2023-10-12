@@ -15,7 +15,7 @@
           <label> <input type="checkbox" />Remember me </label>
           <a href="#">Forgot password?</a>
         </div>
-        <button type="submit" class="btn_login">Login</button>
+        <button type="submit" class="btn_login" @click="PushToDashboard">Login</button>
         <div class="register_link">
           <p>
             Don't have an account?
@@ -27,7 +27,15 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+function PushToDashboard() {
+  router.push({ name: 'DashBoard' })
+}
+</script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Poppins');
@@ -117,6 +125,10 @@
   font-size: 16px;
   color: #333;
   font-weight: 600;
+}
+.wrapper .btn_login:hover {
+  background-color: black;
+  color: #ffffff;
 }
 .wrapper .register_link {
   font-size: 14.5px;
