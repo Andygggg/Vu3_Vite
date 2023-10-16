@@ -1,390 +1,210 @@
 <template>
-  <div class="body_box">
+  <div class="dashboard_box">
+    <input type="checkbox" id="nav-toggle" style="display: none" />
     <div class="sidebar">
-      <div class="logo"></div>
-      <ul class="menu">
-        <li class="active">
-          <a>
-            <i class="bx bx-home"></i>
-            <span>DashBoard</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            <i class="bx bx-home"></i>
-            <span>DashBoard</span>
-          </a>
-        </li>
-        <li class="logout">
-          <a>
-            <i class="bx bx-home"></i>
-            <span>Logout</span>
-          </a>
-        </li>
-      </ul>
+      <div class="sidebar_brand">
+        <h2>
+          <label for="nav-toggle">
+            <i class="bx bx-menu-alt-left"></i>
+          </label>
+        </h2>
+      </div>
+
+      <div class="sidebar_menu">
+        <ul>
+          <li v-for="(item, index) in RouterMenu" :key="index">
+            <div :class="{ active: Choose.meta.title === item.meta.title }">
+              <i :class="item.meta.icon"></i>
+              <span>{{ item.meta.title }}</span>
+            </div>
+          </li>
+          <li>
+            <div class="footer">
+              <i class="bx bx-log-out"></i>
+              <span>登出</span>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
+
     <div class="main_content">
-      <div class="header_wrapper">
-        <div class="header_tittle">
-          <span>Primary</span>
-          <h2>DashBoard</h2>
-        </div>
-        <div class="user_info">
-          <div class="search_box">
-            <i class="bx bx-home"></i>
-            <input type="text" placeholder="Search" />
-          </div>
+      <header>
+        <h2>DashBoard</h2>
+
+        <div class="user_wrapper">
           <div class="image"></div>
-        </div>
-      </div>
-
-      <div class="card_container">
-        <h3 class="main_title">Today's Data</h3>
-        <div class="card_wrapper">
-          <div class="payment_card light_red">
-            <div class="card_header">
-              <div class="amount">
-                <span class="title">Payment amount </span>
-                <span class="amount_value">$500.00</span>
-              </div>
-              <i class="bx bx-home icon"></i>
-            </div>
-            <span class="card_detail">**** **** **** 3333</span>
-          </div>
-
-          <div class="payment_card light_purple">
-            <div class="card_header">
-              <div class="amount">
-                <span class="title">Payment order </span>
-                <span class="amount_value">$500.00</span>
-              </div>
-              <i class="bx bx-home icon dark_purple"></i>
-            </div>
-            <span class="card_detail">**** **** **** 3333</span>
-          </div>
-
-          <div class="payment_card light_green">
-            <div class="card_header">
-              <div class="amount">
-                <span class="title">Payment order </span>
-                <span class="amount_value">$500.00</span>
-              </div>
-              <i class="bx bx-home icon dark_green"></i>
-            </div>
-            <span class="card_detail">**** **** **** 3333</span>
-          </div>
-
-          <div class="payment_card light_blue">
-            <div class="card_header">
-              <div class="amount">
-                <span class="title">Payment order </span>
-                <span class="amount_value">$500.00</span>
-              </div>
-              <i class="bx bx-home icon dark_blue"></i>
-            </div>
-            <span class="card_detail">**** **** **** 3333</span>
+          <div>
+            <h4>Andy Wu</h4>
+            <small>Master</small>
           </div>
         </div>
-      </div>
+      </header>
 
-      <div class="tabular_wrapper">
-        <h3 class="main_title">Finance Data</h3>
-        <div class="table_container">
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Transaction Type</th>
-                <th>Description</th>
-                <th>Amount</th>
-                <th>Category</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <td>2023-10-17</td>
-              <td>Expenses</td>
-              <td>Office Supplies</td>
-              <td>$250</td>
-              <td>Office Supplies</td>
-              <td>Pending</td>
-              <td><button>Edit</button></td>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <main>
+        123
+        <RouterView />
+      </main>
     </div>
-    <RouterView />
   </div>
 </template>
 
 <script setup>
-import { RouterView } from 'vue-router'
+import { computed } from 'vue'
+import { RouterView, useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const RouterMenu = computed(() => {
+  var Map = router.options.routes.find((element) => element.name === 'Project')
+  return Map.children.filter((choose) => choose.meta.isOnSidebar === true)
+})
+const Choose = computed(() => {
+  var Now = router.currentRoute.value
+  return Now
+})
+// console.log(RouterMenu.value)
+console.log(Choose.value)
 </script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Poppins');
-.body_box {
+.dashboard_box {
   margin: 0%;
   padding: 0%;
-  border: none;
-  outline: none;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-  display: flex;
-}
-/* sidebar */
-.sidebar {
-  position: sticky;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 110px;
-  height: 100vh;
-  padding: 0 1.7rem;
-  color: #ffffff;
-  overflow: hidden;
-  transition: all 0.5s linear;
-  background-color: rgba(113, 99, 186, 255);
-}
-.sidebar:hover {
-  width: 240px;
-  transition: 0.5s;
-}
-.logo {
-  height: 80px;
-  padding: 16px;
-}
-.menu {
-  height: 88%;
-  position: relative;
-  list-style: none;
-  padding: 0;
-}
-.menu li {
-  padding: 1rem;
-  margin: 8px 0;
-  border-radius: 8px;
-  transition: all 0.5s ease-in-out;
-}
-.menu li:hover,
-.active {
-  background-color: #e0e0e058;
-}
-.menu a {
-  color: #ffffff;
-  font-size: 14px;
+  list-style-type: none;
   text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+}
+.sidebar {
+  width: 70px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background: var(--main-color);
+  z-index: 100;
+  transition: width 300ms;
+}
+.sidebar_brand {
+  height: 70px;
+  padding: 1.5rem;
+  color: #ffffff;
+}
+.sidebar_brand span {
+  display: inline-block;
+  padding-right: 1rem;
+}
+.sidebar_menu {
+  margin-top: 1rem;
+}
+.sidebar_menu ul {
+  padding: 0%;
+}
+.sidebar_menu li {
+  width: 100%;
+  padding: 1rem 0 1rem 0;
+  list-style: none;
+}
+.sidebar_menu div {
+  color: #ffffff;
+  font-size: 1.1rem;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
 }
-.menu a span {
-  overflow: hidden;
+.active {
+  background-color: #ffffff;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-radius: 30px 0px 0px 30px;
+  color: var(--main-color) !important;
 }
-.menu a i {
-  font-size: 1.2rem;
+.sidebar_menu li div i {
+  font-size: 1.5rem;
+  padding: 0 1.5rem 0 1.5rem;
 }
-.logout {
+.footer {
   position: absolute;
   bottom: 0;
-  left: 0;
-  width: 100%;
+  padding-bottom: 2rem;
 }
-/* body */
-.main_content {
-  position: relative;
-  background: #ebe9e9;
-  width: 100%;
-  padding: 1rem;
+.sidebar_menu li div span {
+  display: none;
 }
-/* navbar */
-.header_wrapper .image {
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  border-radius: 50%;
-  background: black;
-}
-.header_wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  background: #ffffff;
-  border-radius: 10px;
-  padding: 10px 2rem;
-  margin-bottom: 1rem;
-}
-.header_tittle {
-  color: rgba(113, 99, 186, 255);
-}
-.user_info {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-.search_box {
-  background: rgb(237, 237, 237);
-  border-radius: 15px;
-  color: rgba(113, 99, 186, 255);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px 12px;
-}
-.search_box input {
-  background: transparent;
-  padding: 10px;
-  border: none;
-  outline: none;
-}
-.search_box i {
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.5s ease-out;
-}
-.search_box i:hover {
-  transform: scale(1.2);
-}
-/* card */
-.card_container {
-  background: #ffffff;
-  padding: 2rem;
-  border-radius: 10px;
-}
-.card_wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-.main_title {
-  color: rgba(113, 99, 186, 255);
-  padding-bottom: 10px;
-  font-size: 15px;
-}
-.payment_card {
-  background: rgb(229, 223, 223);
-  border-radius: 10px;
-  padding: 1.2rem;
-  width: 290px;
-  height: 150px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: all 0.5s ease-in-out;
-}
-.payment_card:hover {
-  transform: translateY(-5px);
-}
-.card_header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-.amount {
-  display: flex;
-  flex-direction: column;
-}
-.title {
-  font-size: 12px;
-  font-weight: 200;
-}
-.amount_value {
-  font-size: 24px;
-  font-family: 'Courier New', Courier, monospace;
-  font-weight: 600;
-}
-.icon {
-  color: #ffffff;
-  padding: 1rem;
-  height: 60px;
-  width: 60px;
-  text-align: center;
-  border-radius: 50%;
+.sidebar_menu a span:first-child {
   font-size: 1.5rem;
-  background: red;
+  padding-right: 1rem;
 }
-.card_detail {
-  font-size: 18px;
-  color: #777777;
-  letter-spacing: 2px;
-  font-family: 'Courier New', Courier, monospace;
+#nav-toggle:checked + .sidebar {
+  width: 240px;
 }
-/* color css */
-.light_red {
-  background: rgb(251, 233, 233);
+#nav-toggle:checked + .sidebar .sidebar_menu li div span {
+  display: inline-block;
+  font-weight: 600;
+  animation: show 2s;
 }
-.light_purple {
-  background: rgb(254, 226, 254);
+@keyframes show {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
-.light_green {
-  background: rgb(235, 254, 235);
+.main_content {
+  width: calc(100vw - 70px);
+  position: fixed;
+  left: 70px;
 }
-.light_blue {
-  background: rgb(236, 236, 254);
-}
-.dark_red {
-  background: red;
-}
-.dark_purple {
-  background: purple;
-}
-.dark_green {
-  background: green;
-}
-.dark_blue {
-  background: blue;
-}
-/* tabular */
-.tabular_wrapper {
+header {
   background: #ffffff;
-  margin-top: 1rem;
-  border-radius: 10px;
-  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  width: calc(100vw - 70px);
+  top: 0;
 }
-.table_container {
-  width: 100%;
+header h2 {
+  color: #222;
 }
-table {
-  width: 100%;
-  border-collapse: collapse;
+header label span {
+  font-size: 1.7rem;
+  padding-right: 1rem;
 }
-thead {
-  background: rgba(113, 99, 186, 255);
-  color: #ffffff;
+.user_wrapper {
+  display: flex;
+  align-items: center;
 }
-th {
-  padding: 15px;
-  text-align: center;
+.image {
+  width: 40px;
+  height: 40px;
+  background: black;
+  border-radius: 50%;
+  margin-right: 1rem;
 }
-tbody {
-  background: #f2f2f2;
+.user_wrapper small {
+  display: inline-block;
+  color: var(--text-gray);
 }
-td {
-  padding: 15px;
-  font-size: 14px;
-  color: #333;
-  text-align: center;
+main {
+  margin-top: 85px;
+  padding: 1.5rem;
+  background: #f1f5f9;
+  min-height: calc(100vh - 90px);
 }
-tr:nth-child(even) {
-  background: #ffffff;
+@media only screen and (max-width: 1200px) {
 }
-tfoot {
-  background: rgba(113, 99, 186, 255);
-  font-weight: bold;
-  color: #ffffff;
+@media only screen and (max-width: 960px) {
 }
-tfoot td {
-  padding: 15px;
+@media only screen and (max-width: 768px) {
 }
-.table_container button {
-  color: green;
-  background: none;
-  cursor: pointer;
-  outline: none;
-  border: none;
+@media only screen and (max-width: 560px) {
 }
 </style>

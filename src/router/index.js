@@ -11,7 +11,7 @@ const router = createRouter({
       component: () => import('../content/SignIn/index.vue'),
       children: [
         {
-          path: '/UserLogin',
+          path: 'UserLogin',
           name: 'UserLogin',
           component: () => import('../content/SignIn/UserLogin.vue'),
         },
@@ -20,14 +20,19 @@ const router = createRouter({
     },
     // Project Body
     {
-      path: '/',
+      path: '/Project',
       name: 'Project',
       component: () => import('../content/WebBody/index.vue'),
       children: [
         {
-          path: '/DashBoard',
+          path: 'DashBoard',
           name: 'DashBoard',
           component: () => import('../content/WebBody/DashBoard/DashBoard.vue'),
+          meta: {
+            title: '首頁',
+            icon: 'bx bxs-home',
+            isOnSidebar: true,
+          },
         },
       ],
       redirect: { name: 'DashBoard' },
