@@ -31,8 +31,40 @@ const router = createRouter({
           meta: {
             title: '首頁',
             icon: 'bx bxs-home',
-            isOnSidebar: true,
+            isOnNavbar: true,
           },
+        },
+        {
+          path: 'HtmlStudy',
+          name: 'HtmlStudy',
+          children: [
+            {
+              path: 'SemanticElements',
+              name: 'SemanticElements',
+              component: () => import('../content/WebBody/HtmlStudy/SemanticElements.vue'),
+              meta: {
+                title: 'html標籤語意',
+                icon: 'bx bxs-file-html',
+                isOnSidebar: true,
+              },
+            },
+            {
+              path: 'HtmlForm',
+              name: 'HtmlForm',
+              component: () => import('../content/WebBody/HtmlStudy/HtmlForm.vue'),
+              meta: {
+                title: 'html表單',
+                icon: 'bx bx-receipt',
+                isOnSidebar: true,
+              },
+            },
+          ],
+          meta: {
+            title: 'html學習區',
+            icon: 'bx bxs-home',
+            isOnNavbar: true,
+          },
+          redirect: { name: 'SemanticElements' },
         },
       ],
       redirect: { name: 'DashBoard' },

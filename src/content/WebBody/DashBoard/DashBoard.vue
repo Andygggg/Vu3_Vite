@@ -1,5 +1,20 @@
 <template>
-  <div></div>
+  <div>
+    <h2 class="submenu_btn1">A heading with class="example"</h2>
+    <p class="submenu_btn1">A paragraph with class="example".</p>
+
+    <p>
+      Click the button to add a background color to the first element in the document with
+      class="example" (index 0).
+    </p>
+
+    <button @click="myFunction">Try it</button>
+
+    <p>
+      <strong>Note:</strong> The querySelectorAll() method is not supported in Internet Explorer 8
+      and earlier versions.
+    </p>
+  </div>
   <!-- <div class="cards">
     <div class="card_single">
       <div>
@@ -149,7 +164,13 @@
   </div> -->
 </template>
 
-<script setup></script>
+<script setup>
+function myFunction() {
+  var x = document.querySelectorAll('.submenu_btn1')
+  x[0].style.backgroundColor = 'red'
+  console.log(x)
+}
+</script>
 
 <style scoped>
 .cards {
