@@ -72,8 +72,8 @@ h2 {
 .navbar_title {
   flex-grow: 1;
   display: flex;
-  flex-wrap: nowrap;
   align-items: center;
+  flex-wrap: nowrap;
   padding: 0 1rem;
 }
 .navbar_title ul {
@@ -85,6 +85,9 @@ h2 {
 }
 .navbar_title ul li span {
   padding: 1rem 1rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
