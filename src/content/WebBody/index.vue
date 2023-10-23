@@ -29,17 +29,17 @@ import NavBer from '../../views/Menu/NavBar.vue'
   position: fixed;
   left: 70px;
 }
-header {
+.main_content header {
   background: #ffffff;
-  padding: 1rem 1.5rem;
+  padding: 0.5rem 1.5rem;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   position: fixed;
   width: calc(100vw - 70px);
   top: 0;
 }
-main {
+.main_content main {
   margin-top: 85px;
-  padding: 1.5rem;
+  padding: 1rem;
   background: #f1f5f9;
   min-height: calc(100vh - 90px);
 }
