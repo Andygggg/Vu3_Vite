@@ -75,6 +75,8 @@ h2 {
   align-items: center;
   flex-wrap: nowrap;
   padding: 0 1rem;
+  min-width: 300px;
+  overflow-x: scroll;
 }
 .navbar_title ul {
   padding: 0 0.1rem;
