@@ -41,7 +41,8 @@ import NavBer from '../../views/Menu/NavBar.vue'
   margin-top: 85px;
   padding: 1rem;
   background: #f1f5f9;
-  min-height: calc(100vh - 90px);
+  height: calc(100vh - 90px);
+  overflow-y: scroll;
 }
 @media only screen and (max-width: 1200px) {
 }
