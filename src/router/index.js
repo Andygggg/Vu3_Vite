@@ -30,7 +30,6 @@ const router = createRouter({
           component: () => import('../content/WebBody/DashBoard/DashBoard.vue'),
           meta: {
             title: '首頁',
-            icon: 'bx bxs-home',
             isOnNavbar: true,
           },
         },
@@ -61,10 +60,40 @@ const router = createRouter({
           ],
           meta: {
             title: 'html學習區',
-            icon: 'bx bxs-home',
             isOnNavbar: true,
           },
           redirect: { name: 'SemanticElements' },
+        },
+        {
+          path: 'CssStudy',
+          name: 'CssStudy',
+          children: [
+            {
+              path: 'CssSelectors',
+              name: 'CssSelectors',
+              component: () => import('../content/WebBody/CssStudy/CssSelectors.vue'),
+              meta: {
+                title: 'css選擇器',
+                icon: 'bx bxs-file-css',
+                isOnSidebar: true,
+              },
+            },
+            {
+              path: 'CssTable',
+              name: 'CssTable',
+              component: () => import('../content/WebBody/CssStudy/CssTable.vue'),
+              meta: {
+                title: 'css表格',
+                icon: 'bx bx-table',
+                isOnSidebar: true,
+              },
+            },
+          ],
+          meta: {
+            title: 'css學習區',
+            isOnNavbar: true,
+          },
+          redirect: { name: 'CssSelectors' },
         },
       ],
       redirect: { name: 'DashBoard' },
