@@ -95,6 +95,27 @@ const router = createRouter({
           },
           redirect: { name: 'CssSelectors' },
         },
+        {
+          path: 'UnitTest',
+          name: 'UnitTest',
+          children: [
+            {
+              path: 'CalendarTest',
+              name: 'CalendarTest',
+              component: () => import('../content/WebBody/UnitTest/CalendarTest.vue'),
+              meta: {
+                title: '行事曆開發',
+                icon: 'bx bxs-calendar',
+                isOnSidebar: true,
+              },
+            },
+          ],
+          meta: {
+            title: '測試區',
+            isOnNavbar: true,
+          },
+          redirect: { name: 'CalendarTest' },
+        },
       ],
       redirect: { name: 'DashBoard' },
     },
