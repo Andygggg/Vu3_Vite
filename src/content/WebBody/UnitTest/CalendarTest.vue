@@ -49,6 +49,44 @@ const daysOFMonth = computed(() => {
 
 const calendar = computed(() => {
   const Month_Days = []
+  //獲取當月第一天與最後一天為星期幾
+  const first_date = new Date(currentYear.value, currentMonth.value - 1, 1)
+  const last_date = new Date(currentYear.value, currentMonth.value - 1, daysOFMonth.value)
+  //上個月剩餘天數
+  const prevDaysOFMonth = new Date(currentYear.value, currentMonth.value - 1, 0).getDate()
+  for (let index = 0; index < first_date.getDay(); index++) {
+    const prev_date = new Date(currentYear.value, currentMonth.value - 2, prevDaysOFMonth - index)
+    let dayOfWeek = null
+    switch (prev_date.getDay()) {
+      case 0:
+        dayOfWeek = 'SUN'
+        break
+      case 1:
+        dayOfWeek = 'MON'
+        break
+      case 2:
+        dayOfWeek = 'TUE'
+        break
+      case 3:
+        dayOfWeek = 'WED'
+        break
+      case 4:
+        dayOfWeek = 'THU'
+        break
+      case 5:
+        dayOfWeek = 'FRI'
+        break
+      case 6:
+        dayOfWeek = 'SAT'
+        break
+    }
+    Month_Days.unshift({
+      Date: prev_date,
+      DayOfWeek: dayOfWeek,
+      Format_Date: prev_date.toLocaleDateString(),
+      Today: prevDaysOFMonth - index,
+    })
+  }
   for (let index = 1; index <= daysOFMonth.value; index++) {
     const date = new Date(currentYear.value, currentMonth.value - 1, index)
     let dayOfWeek = null
@@ -82,6 +120,39 @@ const calendar = computed(() => {
       Today: index,
     })
   }
+  for (let index = 0; index < 6 - last_date.getDay(); index++) {
+    const next_date = new Date(currentYear.value, currentMonth.value, index + 1)
+    let dayOfWeek = null
+    switch (next_date.getDay()) {
+      case 0:
+        dayOfWeek = 'SUN'
+        break
+      case 1:
+        dayOfWeek = 'MON'
+        break
+      case 2:
+        dayOfWeek = 'TUE'
+        break
+      case 3:
+        dayOfWeek = 'WED'
+        break
+      case 4:
+        dayOfWeek = 'THU'
+        break
+      case 5:
+        dayOfWeek = 'FRI'
+        break
+      case 6:
+        dayOfWeek = 'SAT'
+        break
+    }
+    Month_Days.push({
+      Date: next_date,
+      DayOfWeek: dayOfWeek,
+      Format_Date: next_date.toLocaleDateString(),
+      Today: index + 1,
+    })
+  }
   return Month_Days
 })
 
@@ -92,7 +163,7 @@ const prevMonth = () => {
     currentMonth.value = 12
     currentYear.value -= 1
   }
-  console.log(currentYear.value, currentMonth.value, daysOFMonth.value)
+  console.log(calendar.value)
 }
 //上一個月
 const nextMonth = () => {
@@ -101,9 +172,8 @@ const nextMonth = () => {
     currentMonth.value = 1
     currentYear.value += 1
   }
-  console.log(currentYear.value, currentMonth.value, daysOFMonth.value)
+  console.log(calendar.value)
 }
-console.log(calendar.value)
 </script>
 
 <style scoped>
