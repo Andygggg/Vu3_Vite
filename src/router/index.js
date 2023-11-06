@@ -129,6 +129,11 @@ const router = createRouter({
       path: '/:pathMatch(.*)',
       redirect: '/404',
     },
+    {
+      path: '/StudyCode',
+      name: 'StudyCode',
+      component: () => import('../StudyCode/index.vue'),
+    },
   ],
 })
 

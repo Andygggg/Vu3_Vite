@@ -2,9 +2,9 @@
   <div class="calendar_box">
     <div class="calender">
       <div class="calender_header">
-        <button @click="prevMonth">back</button>
-        <span>{{ currentYear }} | {{ currentMonth }}</span>
-        <button @click="nextMonth">next</button>
+        <button @click="prevMonth"><i class="bx bxs-chevron-left"></i></button>
+        <button @click="nextMonth"><i class="bx bxs-chevron-right"></i></button>
+        <span>{{ currentYear }}年{{ currentMonth }}月</span>
       </div>
 
       <div class="calender_week">
@@ -20,9 +20,13 @@
         <div
           v-for="(item, i) in calendar"
           :key="i"
+          class="date_header"
           :class="{ active: item.Format_Date === today.toLocaleDateString() }"
         >
           {{ item.Today }}
+          <div v-for="(todo, index) in item.ToDoList" :key="index">
+            {{ todo.name }}
+          </div>
         </div>
       </div>
     </div>
@@ -30,7 +34,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, reactive, toRaw } from 'vue'
 
 //當天日期
 const today = new Date()
@@ -39,6 +43,13 @@ const currentYear = ref(today.getFullYear())
 //當月
 const currentMonth = ref(today.getMonth() + 1)
 
+//假設代辦事項
+const todo_list = reactive([
+  { name: '代辦事項A', start_date: '2023/11/3', final_date: '2023/11/10' },
+  { name: '代辦事項B', start_date: '2023/11/4', final_date: '2023/11/11' },
+  { name: '代辦事項c', start_date: '2023/11/5', final_date: '2023/11/12' },
+  { name: '代辦事項d', start_date: '2023/12/6', final_date: '2023/12/8' },
+])
 //當月天數
 const daysOFMonth = computed(() => {
   const date = new Date(currentYear.value, currentMonth.value - 1, 1)
@@ -85,6 +96,7 @@ const calendar = computed(() => {
       DayOfWeek: dayOfWeek,
       Format_Date: prev_date.toLocaleDateString(),
       Today: prevDaysOFMonth - index,
+      ToDoList: [],
     })
   }
   for (let index = 1; index <= daysOFMonth.value; index++) {
@@ -118,6 +130,7 @@ const calendar = computed(() => {
       DayOfWeek: dayOfWeek,
       Format_Date: date.toLocaleDateString(),
       Today: index,
+      ToDoList: [],
     })
   }
   for (let index = 0; index < 6 - last_date.getDay(); index++) {
@@ -151,11 +164,19 @@ const calendar = computed(() => {
       DayOfWeek: dayOfWeek,
       Format_Date: next_date.toLocaleDateString(),
       Today: index + 1,
+      ToDoList: [],
     })
   }
+  Month_Days.forEach((element) => {
+    const filtered_item = toRaw(todo_list).filter(
+      (item) =>
+        Date.parse(item.start_date) <= Date.parse(element.Format_Date) &&
+        Date.parse(item.final_date) >= Date.parse(element.Format_Date),
+    )
+    element.ToDoList.push(...filtered_item)
+  })
   return Month_Days
 })
-
 //下一個月
 const prevMonth = () => {
   currentMonth.value -= 1
@@ -178,22 +199,19 @@ const nextMonth = () => {
 
 <style scoped>
 .calendar_box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100%;
   width: 100%;
+  background-color: rgb(255, 255, 255);
 }
 .calender {
-  background-color: rgb(255, 255, 255);
-  height: 90%;
-  width: 90%;
+  height: 100%;
+  width: 100%;
+  padding: 1rem 1rem;
   color: black;
-  padding: 1rem;
   border-radius: 12px;
   border: 1px solid rgb(202, 202, 202);
   display: grid;
-  grid-template-rows: 10% 10% 80%;
+  grid-template-rows: 5% 5% 90%;
   box-shadow:
     rgba(0, 0, 0, 0.07) 0px 1px 2px,
     rgba(0, 0, 0, 0.07) 0px 2px 4px,
@@ -205,26 +223,52 @@ const nextMonth = () => {
 .calender_header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 .calender_header span {
   padding-left: 2rem;
   padding-right: 2rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+.calender_header button {
+  border: none;
+  background-color: rgba(255, 255, 255, 0);
+}
+.calender_header button i {
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 .calender_week {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  justify-items: center;
+}
+.calender_week div {
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgb(206, 206, 206);
+  border-radius: 8px 8px 0 0;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  background-color: rgb(148, 91, 240);
+  color: #ffffff;
 }
 .calender_day {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  justify-items: center;
-  align-items: center;
   height: auto;
 }
+.calender_day .date_header {
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgb(206, 206, 206);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
 .active {
-  color: red !important;
+  background-color: rgb(225, 204, 252);
 }
 </style>
