@@ -23,7 +23,7 @@
           class="date_header"
           :class="{ active: item.Format_Date === today.toLocaleDateString() }"
         >
-          {{ item.Today }}
+          <span>{{ item.Today }}</span>
           <div v-for="(todo, index) in item.ToDoList" :key="index">
             {{ todo.name }}
           </div>
@@ -47,8 +47,11 @@ const currentMonth = ref(today.getMonth() + 1)
 const todo_list = reactive([
   { name: '代辦事項A', start_date: '2023/11/3', final_date: '2023/11/10' },
   { name: '代辦事項B', start_date: '2023/11/4', final_date: '2023/11/11' },
-  { name: '代辦事項c', start_date: '2023/11/5', final_date: '2023/11/12' },
+  { name: '代辦事項c', start_date: '2023/11/5', final_date: '2023/11/30' },
   { name: '代辦事項d', start_date: '2023/12/6', final_date: '2023/12/8' },
+  // { name: '代辦事項e', start_date: '2023/11/6', final_date: '2023/11/8' },
+  // { name: '代辦事項f', start_date: '2023/11/6', final_date: '2023/11/8' },
+  // { name: '代辦事項g', start_date: '2023/11/6', final_date: '2023/11/8' },
 ])
 //當月天數
 const daysOFMonth = computed(() => {
@@ -257,16 +260,12 @@ const nextMonth = () => {
 .calender_day {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  height: auto;
 }
 .calender_day .date_header {
   width: 100%;
   height: 100%;
   border: 1px solid rgb(206, 206, 206);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+  text-align: center;
 }
 .active {
   background-color: rgb(225, 204, 252);

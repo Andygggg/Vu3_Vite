@@ -109,6 +109,16 @@ const router = createRouter({
                 isOnSidebar: true,
               },
             },
+            {
+              path: 'AxiosTest',
+              name: 'AxiosTest',
+              component: () => import('../content/WebBody/UnitTest/AxiosTest.vue'),
+              meta: {
+                title: 'api開發',
+                icon: 'bx bxs-game',
+                isOnSidebar: true,
+              },
+            },
           ],
           meta: {
             title: '測試區',
