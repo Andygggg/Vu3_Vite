@@ -17,7 +17,7 @@ export const useCorgiStore = defineStore('corgis', () => {
 
   const viewCorgi = async () => {
     try {
-      const view_res = await axios.get('http://localhost:7912/corgis')
+      const view_res = await axios.get('/corgis')
       corgis.value = view_res.data
       console.log(corgis.value)
     } catch (error) {
