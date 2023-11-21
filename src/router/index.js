@@ -119,6 +119,16 @@ const router = createRouter({
                 isOnSidebar: true,
               },
             },
+            {
+              path: 'DocxTest',
+              name: 'DocxTest',
+              component: () => import('../content/WebBody/UnitTest/DocxTest.vue'),
+              meta: {
+                title: 'word匯出',
+                icon: 'bx bxs-file-doc',
+                isOnSidebar: true,
+              },
+            },
           ],
           meta: {
             title: '測試區',
