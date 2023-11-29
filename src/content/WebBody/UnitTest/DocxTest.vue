@@ -201,11 +201,6 @@ const TableStyle = async (text, isContent) => {
                 width: 360,
                 height: 245,
               },
-              altText: {
-                title: 'This is an ultimate title',
-                description: 'This is an ultimate image',
-                name: 'My Ultimate Image',
-              },
             }),
           ],
           alignment: AlignmentType.CENTER,
