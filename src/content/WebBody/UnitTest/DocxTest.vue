@@ -159,10 +159,43 @@ const ExportData = ref([
     picture: url,
   },
 ])
+// async function createImage(src) {
+//   const blob = await fetch(src).then((res) => res.blob())
+//   return blob
+// }
 async function createImage(src) {
-  const blob = await fetch(src).then((res) => res.blob())
+  // 假設 src 是一個跨域的圖像 URL，創建一個 Image 元素並加載圖像
+  const img = new Image()
+  img.crossOrigin = 'anonymous' // 設置跨域屬性
+  img.src = src
+
+  // 等待圖像加載完成
+  await new Promise((resolve) => {
+    img.onload = resolve
+  })
+
+  const content = '112. 11. 07.'
+  const canvas = document.createElement('canvas')
+  canvas.width = img.width
+  canvas.height = img.height
+
+  const ctx = canvas.getContext('2d')
+  ctx.drawImage(img, 0, 0, img.width, img.height)
+
+  ctx.textAlign = 'left'
+  ctx.textBaseline = 'top'
+  ctx.font = '28px 標楷體'
+  ctx.fillStyle = 'rgba(255, 255, 255, 1)'
+
+  ctx.fillText(content, img.width - content.split('').length * 15, img.height - 40, img.width)
+
+  const blob = await new Promise((resolve) => {
+    canvas.toBlob(resolve)
+  })
+
   return blob
 }
+
 // async function getImage(src) {
 //   return new Promise((resolve, reject) => {
 //     const image = new Image()

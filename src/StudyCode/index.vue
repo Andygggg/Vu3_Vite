@@ -1,49 +1,177 @@
 <template>
-  <div class="">
-    <img
-      src="https://media.istockphoto.com/id/592031250/zh/%E7%85%A7%E7%89%87/milky-way-and-pink-light-at-mountains-night-colorful-landscape.jpg?s=612x612&w=0&k=20&c=XjvBw-fCG-ZVlOe1L7OMmw0vT66twMnKr9O2CbPch04="
-      alt=""
-      ref="imageCon"
-      crossorigin="anonymous"
-    />
-    <button @click="handleAddWaterMarker">添加水印</button>
-    <img :src="image" alt="" />
+  <div class="container">
+    <div class="record_item" v-for="(item, index) in ExportData" :key="index">
+      <div class="picture_area" @click.stop="UploadPhoto(index)">
+        <input
+          type="file"
+          ref="inputImage"
+          accept=".jpg, .jpeg, .png"
+          multiple
+          @change="handleDrop($event.target.files)"
+        />
+      </div>
+      <div class="describe_area">
+        <span>{{ item.title }}</span>
+        <span>檔名：{{ item.content.name }}</span>
+        <span>日期：{{ item.content.date }}</span>
+        <span>主題：{{ item.content.main }}</span>
+        <span>說明：{{ item.content.direction }}</span>
+      </div>
+      <div class="design_area">
+        <span v-for="design in item.content.design" :key="design">{{ design }}</span>
+      </div>
+      <div class="design_area">
+        <span v-for="actually in item.content.actually" :key="actually">{{ actually }}</span>
+        <span>add</span>
+      </div>
+      <div class="add_area">
+        <span @click="addItem"><i class="bx bx-plus-circle"></i></span>
+        <span @click="deleteItem(index)"><i class="bx bx-trash"></i></span>
+        <span @click="viewArr"><i class="bx bx-pencil"></i></span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 
-const imageCon = ref(null)
-const image = ref('')
+const inputImage = ref(null)
 
-const handleAddWaterMarker = async () => {
-  const content = '我就是一个水印'
-  const canvas = document.createElement('canvas')
-  canvas.width = imageCon.value.width
-  canvas.height = imageCon.value.height
-
-  const ctx = canvas.getContext('2d')
-  ctx.drawImage(imageCon.value, 0, 0, imageCon.value.width, imageCon.value.height)
-
-  ctx.textAlign = 'left'
-  ctx.textBaseline = 'top'
-  ctx.font = '14px 標楷體'
-  ctx.fillStyle = 'rgba(255, 255, 255, 1)'
-
-  ctx.fillText(
-    content,
-    imageCon.value.width - (content.split('').length * 14 + 10),
-    imageCon.value.height - (14 + 10),
-    imageCon.value.width,
-  )
-
-  image.value = canvas.toDataURL('image/png')
-  const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'))
-  console.log(blob)
+//table test data
+const ExportData = ref([
+  {
+    title: '圖1',
+    content: {
+      name: '貴陽大樓新建工程',
+      date: '112. 11. 07.',
+      main: '防水工程',
+      direction: '2F防水層施作試水自檢(204)',
+      design: ['設計：', '滿水試驗', '\u00A0'],
+      actually: ['實際：', '開始時間:14:30', '水位高度:3.6CM'],
+    },
+    picture: {},
+  },
+])
+//新增自檢項目
+const addItem = () => {
+  let Item = {
+    title: `圖${ExportData.value.length + 1}`,
+    content: {
+      name: '',
+      date: '',
+      main: '',
+      direction: '',
+      design: ['設計：'],
+      actually: ['實際：'],
+    },
+    picture: null,
+  }
+  ExportData.value.push(Item)
 }
 
-onMounted(() => {
-  // Additional setup code that needs to run after the component is mounted
-})
+const deleteItem = (index) => {
+  ExportData.value.splice(index, 1)
+
+  ExportData.value.forEach((item, index) => (item.title = `圖${index + 1}`))
+}
+
+const viewArr = () => {
+  console.log(ExportData.value)
+}
+
+const UploadPhoto = (index) => {
+  console.log(index)
+  inputImage.value[0].click()
+}
+
+const handleDrop = (image) => {
+  const Image = image[0]
+  if (Image.type === 'image/jpeg' || Image.type === 'image/png') {
+    const reader = new FileReader()
+    reader.readAsDataURL(Image)
+    reader.onload = () => {
+      let photo_item = {
+        name: Image.name,
+        type: Image.type,
+        size: Image.size,
+        Date: Image.lastModifiedDate,
+        Url: openImg(reader.result),
+      }
+      console.log(photo_item)
+      console.log(ExportData.value)
+    }
+  } else {
+    alert('不支援的檔案格式！上傳僅支援.jpg, .jpeg, .png圖檔')
+  }
+}
+
+const openImg = async (src) => {
+  if (!src.includes('http')) src = URL.createObjectURL(await (await fetch(src)).blob())
+  // window.open(src)
+}
 </script>
+
+<style scoped>
+.container {
+  height: 100%;
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.record_item {
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 8px;
+  padding: 1%;
+  margin-bottom: 0.5rem;
+  height: 35%;
+  width: 75%;
+  display: grid;
+  grid-template-columns: 30% 30% 15% 15% 10%;
+}
+.picture_area {
+  height: 100%;
+  width: 100%;
+  background-color: #ffffff;
+  color: black;
+  border-style: dotted;
+  border-color: rgba(0, 0, 0, 0.5);
+  border-width: 4px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.picture_area input {
+  display: none;
+}
+.describe_area {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.design_area {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.add_area {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.add_area span {
+  padding: 0.8rem;
+}
+.add_area span i {
+  font-size: 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+</style>
