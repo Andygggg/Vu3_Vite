@@ -42,6 +42,7 @@
 <style scoped>
 .semantic_elements {
   height: calc(100vh - 85px - 32px);
+  padding: 1rem;
 }
 .semantic_elements header {
   background-color: rgb(255, 0, 0);

@@ -21,6 +21,7 @@ import MinorForm1 from '../../../views/StudyHtml/MinorForm1.vue'
   column-gap: 2.5%;
   row-gap: 1.3%;
   overflow-y: scroll;
+  padding: 1rem;
 }
 .master_form {
   grid-row: 1 / span 3;
