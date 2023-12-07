@@ -1,0 +1,1 @@
+import{e as n}from"./exportWord-29890d81.js";import{o as a,b as s,u as o}from"./index-e83da1a6.js";const _={__name:"DocxTest",setup(p){const e=n();return(c,t)=>(a(),s("button",{onClick:t[0]||(t[0]=(...r)=>o(e).generate&&o(e).generate(...r))},"Generate Document"))}};export{_ as default};
