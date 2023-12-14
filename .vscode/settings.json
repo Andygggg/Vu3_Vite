@@ -2,7 +2,7 @@
   "files.trimFinalNewlines": true, //刪除多餘空白
   "files.insertFinalNewline": true, //結尾保留一個空白
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "[html,javascript,vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
